@@ -9,17 +9,17 @@ def distance(origin, destination):
 	
 	return distance['rows'][0]['elements'][0]['distance']
 
-def minDist(coordinates):
+def minDist(coordinates, newVertex):
 	distances = []
 
-	for i in range(len(coordinates)-1):
-		distances.append(distance([coordinates[i]], [coordinates[i+1]]))
+	for i in range(len(coordinates)):
+		distances.append(distance([coordinates[i]], [newVertex])['value'] + distance([newVertex], [coordinates[(i+1) % len(coordinates)]])['value'])
 
-	minimun = min(distances, key=lambda x : x['value'])
+	minimun = min(distances)
 	minindex = distances.index(minimun)
 
-	return (coordinates[minindex], coordinates[minindex+1], minimun['value'])
+	return (coordinates[minindex], coordinates[(minindex+1) % len(coordinates)])
 
 coordinates = ['Indaiatuba, Brazil', 'São Paulo, Brazil', 'São Carlos, Brazil']
 
-print(minDist(coordinates))
+print(minDist(coordinates, 'Curitiba, Brazil'))

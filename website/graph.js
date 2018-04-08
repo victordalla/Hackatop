@@ -2,6 +2,10 @@ class Graph{
 	constructor(nVertices){
 		this.nVertices = nVertices;
 		this.AdjList = new Map();
+
+		for(let i = 0; i < nVertices; i++) {
+			this.addVertex(i);
+		}
 	}
 
 	addVertex(v){
