@@ -24,15 +24,11 @@ class Graph {
 		}
 	}
 
-	dijkstra(src){
-		var dist[];
-		var visited[];
-
+	bfs(src){
+		var visited = [];
 		for(var i=0;i<this.nVertices;i++){
-			dist[i] = 1e10;
 			visited[i] = false;
 		}
-
 		var q = new Queue();
 
 		visited[src] = true;
@@ -40,11 +36,18 @@ class Graph {
 
 		while(!q.isEmpty()){
 			var u = q.dequeue();
-			var adjs = this.AdjList.get(u)
-			for(var v in adjs){
-				if(dist[v] > dist[u] + this.AdjList.get(i))
-			}
 
+			console.log(u)
+
+			var adjs = this.AdjList.get(u);
+			for(var i in adjs){
+				var neigh = adjs[i];
+
+				if(!visited[neigh]){
+					visited[neigh] = true;
+					q.enqueue(neigh)
+				}
+			}
 		}
 	}
 
