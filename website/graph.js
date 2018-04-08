@@ -9,7 +9,7 @@ class Graph{
 	}
 
 	addEdge(v, w, peso){
-		this.AdjList.get(v).push([w,peso]);
+		this.AdjList.get(v).push([w, peso]);
 	}
 
 	printGraph(){
@@ -37,7 +37,7 @@ class Graph{
 		return idx;
 	}
 
-	dijkstra(src){
+	dijkstra(src, dest){
 		var color = [];
 		var pred = [];
 		var dist = [];
@@ -68,5 +68,16 @@ class Graph{
 				}
 			}
 		}
+
+		var path = [];
+		var aux = dest;
+		var i = 0;
+		while(aux != -1){
+			path[i++] = aux;
+			aux = pred[aux]
+		}
+		path.reverse()
+
+		return [path, dist[dest]]		
 	}
 }
