@@ -1,4 +1,4 @@
-class Graph {
+class Graph{
 	constructor(nVertices){
 		this.nVertices = nVertices;
 		this.AdjList = new Map();
@@ -8,8 +8,8 @@ class Graph {
 		this.AdjList.set(v, []);
 	}
 
-	addEdge(v, w){
-		this.AdjList.get(v).push(w);
+	addEdge(v, w, peso){
+		this.AdjList.get(v).push([w,peso]);
 	}
 
 	printGraph(){
@@ -18,38 +18,55 @@ class Graph {
 			var get_values = this.AdjList.get(i);
 			var conc = "";
 			for(var j of get_values)
-				conc += j + " "
+				conc += j[0] + "(" + j[1] +")" + " "
 
 			console.log(i + " -> " + conc)
 		}
 	}
 
-	bfs(src){
-		var visited = [];
-		for(var i=0;i<this.nVertices;i++){
-			visited[i] = false;
+	getmin(vector, color){
+		var idx = -1;
+		var min = 1e10;
+		for(var i=0;i<vector.length;i++){
+			if(color[i] == 1 && vector[i] < min){
+				idx = i;
+				min = vector[idx]
+			}
 		}
-		var q = new Queue();
 
-		visited[src] = true;
-		q.enqueue(src);
+		return idx;
+	}
 
-		while(!q.isEmpty()){
-			var u = q.dequeue();
+	dijkstra(src){
+		var color = [];
+		var pred = [];
+		var dist = [];
 
-			console.log(u)
+		for(var i=0;i<this.nVertices;i++){
+			color[i] = 0;
+			pred[i] = -1;
+			dist[i] = 1e9;
+		}
 
+		color[src] = 1;
+		dist[src] = 0;
+		
+		for(var i=0;i<this.nVertices;i++){
+			var u = this.getmin(dist, color);
+			if(u == -1) break;
+
+			color[u] = 2;
 			var adjs = this.AdjList.get(u);
-			for(var i in adjs){
-				var neigh = adjs[i];
+			for(var adj of adjs){
+				var v = adj[0];
+				var w_uv = adj[1];
 
-				if(!visited[neigh]){
-					visited[neigh] = true;
-					q.enqueue(neigh)
+				if(color[v] == 0 || dist[v] > (dist[u] + w_uv)){
+					color[v] = 1;
+					dist[v] = dist[u] + w_uv;
+					pred[v] = u
 				}
 			}
 		}
 	}
-
-
 }
